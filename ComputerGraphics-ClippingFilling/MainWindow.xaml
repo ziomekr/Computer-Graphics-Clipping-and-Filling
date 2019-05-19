@@ -1,0 +1,36 @@
+﻿<Window x:Class="ComputerGraphics_ClippingFilling.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ComputerGraphics_ClippingFilling"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TabStripPlacement="Top">
+            <TabItem Header="Clipping">
+                <Canvas Name="ClippingCanvas" Focusable="True" Background="White" MouseLeftButtonDown="ClippingCanvasClick" MouseRightButtonDown="ClippingReset" />
+            </TabItem>
+            <TabItem Header="Filling">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Canvas Name="FillingCanvas" Grid.Column="0" Focusable="True" Background="White" MouseLeftButtonDown="FillingCanvasClick" />
+                    <StackPanel Grid.Column="1">
+                        <Label FontSize="12" FontWeight="Bold">Number of vertices:</Label>
+                        <DockPanel VerticalAlignment="Center" Margin="5">
+                            <TextBox Text="{Binding ElementName=VertexSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="30" TextChanged="VerticesChanged" />
+                            <Slider Minimum ="3" Maximum="18" IsSnapToTickEnabled="True" Name="VertexSlider" />
+                        </DockPanel>
+                        <Label FontSize="12" FontWeight="Bold">Vertices:</Label>
+                        <ListView Name="VerticesListView" Height="200"/>
+                        <Button Name="FillButton" Click="FillButtonClick" IsEnabled="False">Fill polygon</Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
