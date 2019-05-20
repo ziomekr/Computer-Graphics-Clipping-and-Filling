@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ComputerGraphics_ClippingFilling
 {
-    class Edge
+    internal class Edge
     {
-        public int ymax { get; set; }
-        public double x { get; set; }
-        public double invM { get; set; }
-        public Edge(Point p1, Point p2) {
+        public Edge(Point p1, Point p2)
+        {
             if (p1.Y > p2.Y)
                 ymax = (int)p1.Y;
             else
@@ -25,5 +18,9 @@ namespace ComputerGraphics_ClippingFilling
             else
                 invM = 0;
         }
+
+        public double invM { get; set; }
+        public double x { get; set; }
+        public int ymax { get; set; }
     }
 }

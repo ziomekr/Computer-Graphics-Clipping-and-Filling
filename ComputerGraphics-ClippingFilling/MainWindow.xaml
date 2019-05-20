@@ -14,8 +14,8 @@
             <TabItem Header="Filling">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
                     </Grid.ColumnDefinitions>
                     <Canvas Name="FillingCanvas" Grid.Column="0" Focusable="True" Background="White" MouseLeftButtonDown="FillingCanvasClick" />
                     <StackPanel Grid.Column="1">
@@ -25,12 +25,11 @@
                             <Slider Minimum ="3" Maximum="18" IsSnapToTickEnabled="True" Name="VertexSlider" />
                         </DockPanel>
                         <Label FontSize="12" FontWeight="Bold">Vertices:</Label>
-                        <ListView Name="VerticesListView" Height="200"/>
+                        <ListView Name="VerticesListView" Height="200" />
                         <Button Name="FillButton" Click="FillButtonClick" IsEnabled="False">Fill polygon</Button>
                     </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>

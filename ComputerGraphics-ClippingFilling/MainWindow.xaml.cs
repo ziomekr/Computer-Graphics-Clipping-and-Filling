@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ComputerGraphics_ClippingFilling
@@ -21,36 +13,15 @@ namespace ComputerGraphics_ClippingFilling
     public partial class MainWindow : Window
     {
         private Rect clippingRectangle;
-        private bool hasStartPoint = false;
-        private Point startPoint;
         private Point endPoint;
+        private bool hasStartPoint = false;
         private List<Point> polygonVertices = new List<Point>();
+        private Point startPoint;
+
         public MainWindow()
         {
             InitializeComponent();
             InitializeClippingRectangle();
-        }
-
-        private void InitializeClippingRectangle() {
-            Path myPath1 = new Path();
-            myPath1.Stroke = Brushes.Black;
-            myPath1.StrokeThickness = 2;
-            
-            Rect myRect1 = new Rect();
-            myRect1.X = 150;
-            myRect1.Y = 100;
-            myRect1.Width = 300;
-            myRect1.Height = 200;
-            RectangleGeometry myRectangleGeometry1 = new RectangleGeometry();
-            myRectangleGeometry1.Rect = myRect1;
-
-            GeometryGroup myGeometryGroup1 = new GeometryGroup();
-            myGeometryGroup1.Children.Add(myRectangleGeometry1);
-
-            myPath1.Data = myGeometryGroup1;
-            clippingRectangle = myRect1;
-            ClippingCanvas.Children.Add(myPath1);
-
         }
 
         private void ClippingCanvasClick(object sender, MouseButtonEventArgs e)
@@ -70,6 +41,31 @@ namespace ComputerGraphics_ClippingFilling
             }
         }
 
+        private void ClippingReset(object sender, MouseButtonEventArgs e)
+        {
+            ClippingCanvas.Children.Clear();
+            InitializeClippingRectangle();
+        }
+
+        private void drawLine(Point p1, Point p2, Color color, Canvas Canvas)
+        {
+            Line l = new Line();
+            l.X1 = p1.X;
+            l.Y1 = p1.Y;
+            l.X2 = p2.X;
+            l.Y2 = p2.Y;
+            SolidColorBrush brush = new SolidColorBrush(color);
+            l.StrokeThickness = 2;
+            l.Stroke = brush;
+            Canvas.Children.Add(l);
+        }
+
+        private void FillButtonClick(object sender, RoutedEventArgs e)
+        {
+            ScanlineFillVertexSort filler = new ScanlineFillVertexSort(polygonVertices, FillingCanvas);
+            filler.fillPolygon();
+        }
+
         private void FillingCanvasClick(object sender, MouseButtonEventArgs e)
         {
             if (polygonVertices.Count < VertexSlider.Value)
@@ -87,17 +83,35 @@ namespace ComputerGraphics_ClippingFilling
                     }
                 }
             }
- 
         }
-        private void FillButtonClick(object sender, RoutedEventArgs e) {
-            ScanlineFillVertexSort filler = new ScanlineFillVertexSort(polygonVertices, FillingCanvas);
-            filler.fillPolygon();
+
+        private void InitializeClippingRectangle()
+        {
+            Path myPath1 = new Path();
+            myPath1.Stroke = Brushes.Black;
+            myPath1.StrokeThickness = 2;
+
+            Rect myRect1 = new Rect();
+            myRect1.X = 150;
+            myRect1.Y = 100;
+            myRect1.Width = 300;
+            myRect1.Height = 200;
+            RectangleGeometry myRectangleGeometry1 = new RectangleGeometry();
+            myRectangleGeometry1.Rect = myRect1;
+
+            GeometryGroup myGeometryGroup1 = new GeometryGroup();
+            myGeometryGroup1.Children.Add(myRectangleGeometry1);
+
+            myPath1.Data = myGeometryGroup1;
+            clippingRectangle = myRect1;
+            ClippingCanvas.Children.Add(myPath1);
         }
 
         private void showVerticesInListView()
         {
-            foreach(Point p in polygonVertices) {
-                ListViewItem it = new ListViewItem { Content = "X: " + (int)p.X + " Y: " + (int)p.Y};
+            foreach (Point p in polygonVertices)
+            {
+                ListViewItem it = new ListViewItem { Content = "X: " + (int)p.X + " Y: " + (int)p.Y };
                 VerticesListView.Items.Add(it);
             }
         }
@@ -108,25 +122,6 @@ namespace ComputerGraphics_ClippingFilling
             FillingCanvas.Children.Clear();
             VerticesListView.Items.Clear();
             FillButton.IsEnabled = false;
-        }
-
-        private void drawLine(Point p1, Point p2, Color color, Canvas Canvas)
-        {
-            Line l = new Line();
-            l.X1 = p1.X;
-            l.Y1 = p1.Y;
-            l.X2 = p2.X;
-            l.Y2 = p2.Y;
-            SolidColorBrush brush = new SolidColorBrush(color);
-            l.StrokeThickness = 2;
-            l.Stroke = brush;
-            Canvas.Children.Add(l);
-        }
-
-        private void ClippingReset(object sender, MouseButtonEventArgs e)
-        {
-            ClippingCanvas.Children.Clear();
-            InitializeClippingRectangle();
         }
     }
 }
